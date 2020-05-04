@@ -1,0 +1,19 @@
+** OverView
+
+JavaScript Primer の練習
+
+https://jsprimer.net/use-case
+
+** Preparation
+
+#+BEGIN_SRC shell
+# Install node modules
+$ npm install
+#+END_SRC
+
+** Available Scripts
+
+~npm run start~
+
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in the browser.

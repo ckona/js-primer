@@ -1,0 +1,15 @@
+{
+  "name": "js-primer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "./node_modules/.bin/js-primer-local-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@js-primer/hello-world": "^1.0.0",
+    "@js-primer/local-server": "^0.1.0"
+  }
+}
