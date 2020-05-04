@@ -1,35 +1,46 @@
-console.log("index.js: loaded");
+async function main() {
+  try {
+    const userId = getUserId();
+    const userInfo = await fetchUserInfo(userId);
+    const view = createView(userInfo);
+    displayView(view);
+  } catch (error) {
+    console.error(`エラー (${error})`);
+  }
+};
 
-const fetchUserInfo = (userInfo) => {
-  const userId = "ckona";
-
-  fetch(`https://api.github.com/users/${encodeURIComponent(userId)}`)
+const fetchUserInfo = (userId) => {
+  return fetch(`https://api.github.com/users/${encodeURIComponent(userId)}`)
     .then(response => {
-      console.log(response.status);
-
       if (!response.ok) {
-        console.error("error response: ", response);
-        return nil;
+        return Promise.reject(new Error(`${response.status}: ${response.statusText}`));
       } else {
-        return response.json().then(userInfo => {
-          const view = escapeHTML`
-            <h4>${userInfo.name} (@${userInfo.login})</h4>
-            <img src="${userInfo.avatar_url}" alt="${userInfo.login}" height="100">
-            <dl>
-              <dt>Location</dt>
-              <dd>${userInfo.location}</dd>
-              <dt>Repositories</dt>
-              <dd>${userInfo.public_repos}</dd>
-            </dl>
-          `;
-          const result = document.getElementById("result");
-          result.innerHTML = view;
-        });
+        return response.json();
       }
-    })
-    .catch(error => {
-      console.error(error);
     });
+};
+
+const getUserId = () => {
+  const value = document.getElementById('userId').value;
+  return encodeURIComponent(value);
+};
+
+const createView = userInfo => {
+  return escapeHTML`
+    <h4>${userInfo.name} (@${userInfo.login})</h4>
+    <img src="${userInfo.avatar_url}" alt="${userInfo.login}" height="100">
+    <dl>
+      <dt>Location</dt>
+      <dd>${userInfo.location}</dd>
+      <dt>Repositories</dt>
+      <dd>${userInfo.public_repos}</dd>
+    </dl>
+  `;
+};
+
+const displayView = view => {
+  const result = document.getElementById("result");
+  result.innerHTML = view;
 };
 
 const escapeHTML = (strings, ...values) => {
